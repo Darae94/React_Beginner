@@ -7,11 +7,12 @@
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        const root = document.getElementById("root");
         function App() {
             const [counter, setCounter] = React.useState(0);
             const onClick = () => {
-                setCounter(counter + 1);
+                // setCounter(counter + 1); // 직접 변경하거나 가져와서 변경
+                // 하지만 위와 같은 방법은 counter가 다른 값일 수 있기에 좋지않음
+                setCounter((current) => current + 1);
             };
             return (
                 <div>
@@ -20,10 +21,9 @@
                 </div>
             );
         }
+        const root = document.getElementById("root");
         ReactDOM.render(<App />, root);
         // state(React.useState()으로 사용 가능 ): data 저장되는 곳이며 변경되는 거까지 관여
-        // React.useState() => [state, modifier] 즉, 데이터와 함수 배열을 받아옴
-        // modifier 함수로 state를 변경하면 해당 컴포넌트 재생성함 - HTML 코드 상으론 변경된 값만 바뀜
         // 리액트JS => 자동으로 리렌더링되는 거 확인(다른 부분만 변경 처리)
     </script>
 </html>
