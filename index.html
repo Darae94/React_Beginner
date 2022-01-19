@@ -3,21 +3,28 @@
     <body>
         <div id="root"></div>
     </body>
+    <!-- 
+        JSX 사용 주의 사항
+        - production.min.js 사용 시 for, class 사용해도 오류 안남 - javaScript 용어이기 때문
+        - development.js 사용 시 for, class 사용하면 오류가 남
+     -->
     <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         function App() {
-            const [counter, setCounter] = React.useState(0);
-            const onClick = () => {
-                // setCounter(counter + 1); // 직접 변경하거나 가져와서 변경
-                // 하지만 위와 같은 방법은 counter가 다른 값일 수 있기에 좋지않음
-                setCounter((current) => current + 1);
-            };
+            const [minutes, setMinutes] = React.useState();
+            const onChange = (event) => {
+                setMinutes(event.target.value);
+            }
             return (
                 <div>
-                    <h3>Total clicks: {counter}</h3>
-                    <button onClick={onClick}>Click me</button>
+                    <h1 className="hi">Super Converter</h1>
+                    <label htmlFor="minutes">Minutes</label>
+                    <input value={minutes} id="minutes" placeholder="Minutes" type="number" onChange={onChange} />
+                    <h4>You want to convert {minutes}</h4>
+                    <label htmlFor="hours">Hours</label>
+                    <input id="hours" placeholder="Hours" type="number" />
                 </div>
             );
         }
