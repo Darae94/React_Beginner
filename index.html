@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        function App() {
+        function MinutesToHours() {
             const [amount, setAmount] = React.useState(0);
             const [inverted, setInverted] = React.useState(false);
             const onChange = (event) => {
@@ -15,10 +15,8 @@
             }
             const reset = () => setAmount(0);
             const onInvert = () => setInverted((current => !current));
-            // 변경되는 값을 UI로 노출해주는 컴포넌트임
             return (
                 <div>
-                    <h1>Super Converter</h1>
                     <div>
                         <label htmlFor="minutes">Minutes</label>
                         <input value={inverted ? amount * 60 : amount} id="minutes" placeholder="minutes" type="number" onChange={onChange} disabled={inverted} />
@@ -32,28 +30,47 @@
                 </div>
             );
         }
-        function App() {
-            const [amount, setAmount] = React.useState(0);
+        function KmToMiles() {
+            const [scope, setScope] = React.useState(0); // 
             const [inverted, setInverted] = React.useState(false);
             const onChange = (event) => {
-                setAmount(event.target.value);
-            }
-            const reset = () => setAmount(0);
-            const onInvert = () => setInverted((current => !current));
-            // 변경되는 값을 UI로 노출해주는 컴포넌트임
+                setScope(event.target.value);
+            };
+            const reset = () => setScope(0);
+            const onInvert = () => setInverted((current) => !current);
             return (
                 <div>
-                    <h1>Super Converter</h1>
                     <div>
-                        <label htmlFor="minutes">Minutes</label>
-                        <input value={inverted ? amount * 60 : amount} id="minutes" placeholder="minutes" type="number" onChange={onChange} disabled={inverted} />
+                        <label htmlFor="miles">Miles</label>
+                        <input value={inverted ? Math.floor(scope * 1.609) : scope} id="miles" placeholder="Miles" type="number" onChange={onChange} disabled={inverted} />
                     </div>
                     <div>
-                        <label htmlFor="hours">Hours</label>
-                        <input value={inverted ? amount : Math.round(amount / 60)} id="hours" placeholder="Hours" type="number" disabled={!inverted} onChange={onChange} />
+                        <label htmlFor="km">Km</label>
+                        <input value={inverted ? scope : Math.floor(scope / 1.609)} id="km" placeholder="Km" type="number" disabled={!inverted} onChange={onChange} />
                     </div>
                     <button onClick={reset}>Reset</button>
                     <button onClick={onInvert}>{inverted ? "Turn back" : "invert"}</button>
+                </div>
+            );
+        }
+        function App() {
+            const [index, setIndex] = React.useState("xx");
+            const onSelect = (event) => {
+                setIndex(event.target.value);
+            };
+            console.log("render w/ " + index); // 변화가 있을때 리렌더링 되는것을 확인 가능
+            return (
+                <div>
+                    <h1>Super Converter</h1>
+                    <select value={index} onChange={onSelect}>
+                        <option value="xx">Select your units</option>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Km & Miles</option>
+                    </select>
+                    <hr />
+                    {index === "xx" ? "Please select your units" : null}
+                    {index === "0" ? <MinutesToHours /> : null}
+                    {index === "1" ? <KmToMiles /> : null}
                 </div>
             );
         }
