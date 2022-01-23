@@ -7,25 +7,33 @@
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        // props(오브젝트) : {} 로 처리 가능
-        function Btn({text, big}) {
-            console.log(text, big);
-            return <button style={{
-                backgroundColor: "tomato",
-                color: "white",
-                padding: "10px 20px",
-                border: 0,
-                borderRadius: 10,
-                fontSize: big ? 18 : 12,
-            }}>
+        // 추가된 내용을 function props에 추가해주고 태그에 추가 해야 작동함
+        function Btn( { text, onClick } ) {
+            console.log(text, "was rendered"); // 렌더릴 하는 내용 확인용
+            return <button
+                onClick={onClick}
+                style={{
+                    backgroundColor: "tomato",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: 10,
+                }}
+            >
             {text}
             </button>;
         }
+        // props 변경되지 않으면 리렌더링 하지 않게 처리
+        // 사용하지 않을 시 app의 내용이 많을때 모두 그려주게 되서 느려지는 원인 중 하나임
+        const MemorizedBtn = React.memo(Btn);
         function App() {
+            const [value, setValue] = React.useState("Save Changes");
+            const ChangeValue = () => setValue("Revert Changes");
+            // 기존처럼 onClick 추가하면 동작하지 않음
             return (
                 <div>
-                    <Btn text="Save Change" big={true} />
-                    <Btn text="Continue" big={false} />
+                    <MemorizedBtn text={value} onClick={ChangeValue} />
+                    <MemorizedBtn text="Continue" />
                 </div>
             );
         }
