@@ -7,76 +7,29 @@
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        function MinutesToHours() {
-            const [amount, setAmount] = React.useState(0);
-            const [inverted, setInverted] = React.useState(false);
-            const onChange = (event) => {
-                setAmount(event.target.value);
-            }
-            const reset = () => setAmount(0);
-            const onInvert = () => setInverted((current => !current));
-            return (
-                <div>
-                    <div>
-                        <label htmlFor="minutes">Minutes</label>
-                        <input value={inverted ? amount * 60 : amount} id="minutes" placeholder="minutes" type="number" onChange={onChange} disabled={inverted} />
-                    </div>
-                    <div>
-                        <label htmlFor="hours">Hours</label>
-                        <input value={inverted ? amount : Math.round(amount / 60)} id="hours" placeholder="Hours" type="number" disabled={!inverted} onChange={onChange} />
-                    </div>
-                    <button onClick={reset}>Reset</button>
-                    <button onClick={onInvert}>{inverted ? "Turn back" : "invert"}</button>
-                </div>
-            );
-        }
-        function KmToMiles() {
-            const [scope, setScope] = React.useState(0); // 
-            const [inverted, setInverted] = React.useState(false);
-            const onChange = (event) => {
-                setScope(event.target.value);
-            };
-            const reset = () => setScope(0);
-            const onInvert = () => setInverted((current) => !current);
-            return (
-                <div>
-                    <div>
-                        <label htmlFor="miles">Miles</label>
-                        <input value={inverted ? Math.floor(scope * 1.609) : scope} id="miles" placeholder="Miles" type="number" onChange={onChange} disabled={inverted} />
-                    </div>
-                    <div>
-                        <label htmlFor="km">Km</label>
-                        <input value={inverted ? scope : Math.floor(scope / 1.609)} id="km" placeholder="Km" type="number" disabled={!inverted} onChange={onChange} />
-                    </div>
-                    <button onClick={reset}>Reset</button>
-                    <button onClick={onInvert}>{inverted ? "Turn back" : "invert"}</button>
-                </div>
-            );
+        // props(오브젝트) : {} 로 처리 가능
+        function Btn({text, big}) {
+            console.log(text, big);
+            return <button style={{
+                backgroundColor: "tomato",
+                color: "white",
+                padding: "10px 20px",
+                border: 0,
+                borderRadius: 10,
+                fontSize: big ? 18 : 12,
+            }}>
+            {text}
+            </button>;
         }
         function App() {
-            const [index, setIndex] = React.useState("xx");
-            const onSelect = (event) => {
-                setIndex(event.target.value);
-            };
-            console.log("render w/ " + index); // 변화가 있을때 리렌더링 되는것을 확인 가능
             return (
                 <div>
-                    <h1>Super Converter</h1>
-                    <select value={index} onChange={onSelect}>
-                        <option value="xx">Select your units</option>
-                        <option value="0">Minutes & Hours</option>
-                        <option value="1">Km & Miles</option>
-                    </select>
-                    <hr />
-                    {index === "xx" ? "Please select your units" : null}
-                    {index === "0" ? <MinutesToHours /> : null}
-                    {index === "1" ? <KmToMiles /> : null}
+                    <Btn text="Save Change" big={true} />
+                    <Btn text="Continue" big={false} />
                 </div>
             );
         }
         const root = document.getElementById("root");
         ReactDOM.render(<App />, root);
-        // state(React.useState()으로 사용 가능 ): data 저장되는 곳이며 변경되는 거까지 관여
-        // 리액트JS => 자동으로 리렌더링되는 거 확인(다른 부분만 변경 처리)
     </script>
 </html>
